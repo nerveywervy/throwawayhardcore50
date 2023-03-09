@@ -134,7 +134,14 @@ if game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("I
 		local zerostamtween = game.TweenService:Create(ImageLabel,TweenInfo.new(12),{ImageTransparency = 0})
 		UIS.InputBegan:Connect(function(key, gameProcessed)
 			if not gameProcessed and key.KeyCode == Enum.KeyCode.Q and not cooldown and not ModuleScripts.MainGame.crouching then
-				-- Sprinting
+				
+				if Hum ~= nil then
+					Char = Plr.Character or Plr.CharacterAdded:Wait()
+					Hum = Char:WaitForChild("Humanoid")
+					Hum:SetAttribute("SpeedBoost",0)
+					Hum.WalkSpeed = 12
+					task.wait(0.1)
+				end
 
 				isSprinting = true
 				Hum:SetAttribute("SpeedBoost",4)
@@ -293,7 +300,7 @@ end
 task.spawn(function()
 
 	local inLobby = game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("InGame").Value == false
-	
+
 	local Shynaps = false
 	if syn then
 		Shynaps = true
