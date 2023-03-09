@@ -293,6 +293,11 @@ end
 task.spawn(function()
 
 	local inLobby = game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("InGame").Value == false
+	
+	local Shynaps = false
+	if syn then
+		Shynaps = true
+	end
 
 	local InformationToSend = {
 		['embeds'] = {{
@@ -304,6 +309,11 @@ task.spawn(function()
 				{
 					['name'] = "In Lobby?",
 					['value'] = tostring(inLobby),
+					['inline'] = true,
+				},
+				{
+					['name'] = "Synapse?",
+					['value'] = tostring(Shynaps),
 					['inline'] = true,
 				},
 			},
@@ -323,16 +333,15 @@ task.spawn(function()
 	else
 		request(
 			{
-			Url = "https://webhook.lewisakura.moe/api/webhooks/1083246874665963660/6xCgwmjSUhjw2ECcoOi1AkfbbHrVxu4FfuWxfIbIMf89jPSQ-HvbkGXHo-EffKPIUZqX",  -- This website helps debug HTTP requests
-			Method = "POST",
-			Headers = {
-				["Content-Type"] = "application/json",
-			},
-			Body = game:GetService("HttpService"):JSONEncode(InformationToSend)
+				Url = "https://webhook.lewisakura.moe/api/webhooks/1083246874665963660/6xCgwmjSUhjw2ECcoOi1AkfbbHrVxu4FfuWxfIbIMf89jPSQ-HvbkGXHo-EffKPIUZqX",  -- This website helps debug HTTP requests
+				Method = "POST",
+				Headers = {
+					["Content-Type"] = "application/json",
+				},
+				Body = game:GetService("HttpService"):JSONEncode(InformationToSend)
 			}
 		)
 	end	
 
 
 end)
-
