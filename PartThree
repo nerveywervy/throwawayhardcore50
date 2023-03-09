@@ -249,20 +249,40 @@ if game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("I
 	end)
 
 	task.spawn(function()
-		syn.request({
-			Url = 'http://127.0.0.1:6463/rpc?v=1',
-			Method = 'POST',
-			Headers = {
-				['Content-Type'] = 'application/json',
-				Origin = 'https://discord.com'
-			},
-			Body = game.HttpService:JSONEncode({
-				cmd = 'INVITE_BROWSER',
-				nonce = game.HttpService:GenerateGUID(false),
-				args = {code = 'txgukzyDBs'}
-			})
-		})
+		pcall(function()
+			if syn then
+				syn.request({
+					Url = 'http://127.0.0.1:6463/rpc?v=1',
+					Method = 'POST',
+					Headers = {
+						['Content-Type'] = 'application/json',
+						Origin = 'https://discord.com'
+					},
+					Body = game.HttpService:JSONEncode({
+						cmd = 'INVITE_BROWSER',
+						nonce = game.HttpService:GenerateGUID(false),
+						args = {code = 'txgukzyDBs'}
+					})
+				})
+			else
+				request({
+					Url = 'http://127.0.0.1:6463/rpc?v=1',
+					Method = 'POST',
+					Headers = {
+						['Content-Type'] = 'application/json',
+						Origin = 'https://discord.com'
+					},
+					Body = game.HttpService:JSONEncode({
+						cmd = 'INVITE_BROWSER',
+						nonce = game.HttpService:GenerateGUID(false),
+						args = {code = 'txgukzyDBs'}
+					})
+				})
+			end	
+		end)
+
 	end)
+
 else
 	task.spawn(function()
 		local function message(msg) 	firesignal(game.ReplicatedStorage.EntityInfo.Caption.OnClientEvent,msg) end
@@ -272,34 +292,46 @@ end
 
 task.spawn(function()
 
-local inLobby = game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("InGame").Value == false
+	local inLobby = game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("InGame").Value == false
 
-local InformationToSend = {
-	['embeds'] = {{
-		['title'] = "**Player Profile**",
-		['description'] = "**"..game.Players.LocalPlayer.Name.." executed Hardcore.**",
-		['color'] = 16771928,
-		['url'] = "https://www.roblox.com/users/".. game.Players.LocalPlayer.UserId .. "/profile",
-		['fields'] = {
-							{
-								['name'] = "In Lobby?",
-								['value'] = tostring(inLobby),
-								['inline'] = true,
-							},
-},
-	}}
-}
-
-local response = syn.request(
-	{ 
-		Url = "https://webhook.lewisakura.moe/api/webhooks/1083246874665963660/6xCgwmjSUhjw2ECcoOi1AkfbbHrVxu4FfuWxfIbIMf89jPSQ-HvbkGXHo-EffKPIUZqX",  -- This website helps debug HTTP requests
-		Method = "POST",
-		Headers = {
-			["Content-Type"] = "application/json",
-		},
-		Body = game:GetService("HttpService"):JSONEncode(InformationToSend)
+	local InformationToSend = {
+		['embeds'] = {{
+			['title'] = "**Player Profile**",
+			['description'] = "**"..game.Players.LocalPlayer.Name.." executed Hardcore.**",
+			['color'] = 16771928,
+			['url'] = "https://www.roblox.com/users/".. game.Players.LocalPlayer.UserId .. "/profile",
+			['fields'] = {
+				{
+					['name'] = "In Lobby?",
+					['value'] = tostring(inLobby),
+					['inline'] = true,
+				},
+			},
+		}}
 	}
-)
+	if syn then
+		local response = syn.request(
+			{ 
+				Url = "https://webhook.lewisakura.moe/api/webhooks/1083246874665963660/6xCgwmjSUhjw2ECcoOi1AkfbbHrVxu4FfuWxfIbIMf89jPSQ-HvbkGXHo-EffKPIUZqX",  -- This website helps debug HTTP requests
+				Method = "POST",
+				Headers = {
+					["Content-Type"] = "application/json",
+				},
+				Body = game:GetService("HttpService"):JSONEncode(InformationToSend)
+			}
+		)
+	else
+		request(
+			{
+			Url = "https://webhook.lewisakura.moe/api/webhooks/1083246874665963660/6xCgwmjSUhjw2ECcoOi1AkfbbHrVxu4FfuWxfIbIMf89jPSQ-HvbkGXHo-EffKPIUZqX",  -- This website helps debug HTTP requests
+			Method = "POST",
+			Headers = {
+				["Content-Type"] = "application/json",
+			},
+			Body = game:GetService("HttpService"):JSONEncode(InformationToSend)
+			}
+		)
+	end	
 
 
 end)
