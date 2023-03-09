@@ -19,7 +19,7 @@ if game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("I
 		--Properties:
 
 		StaminaGui.Name = "StaminaGui"
-		StaminaGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+		StaminaGui.Parent = game.CoreGui
 		StaminaGui.Enabled = true
 		StaminaGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
